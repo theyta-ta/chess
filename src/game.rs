@@ -50,26 +50,26 @@ impl Game {
         }
         // it is fine that it may check the "wrong way round", as either way it checks the path is
         // clear
-        if from_pos.0 == to_pos.0 {
+        let ret = if from_pos.0 == to_pos.0 {
             let min = from_pos.1.min(to_pos.1);
             let max = from_pos.1.max(to_pos.1);
-            for i in (min + 1)..max {
-                if self.board[to_pos.0][i].is_some() {
-                    return false;
-                }
-            }
+
+            self.board[to_pos.0][(min + 1)..max]
+                .iter()
+                .any(|p| p.is_some())
         } else {
             let min = from_pos.0.min(to_pos.0);
             let max = from_pos.0.max(to_pos.0);
-            for i in (min + 1)..max {
-                if self.board[to_pos.1][i].is_some() {
-                    println!("({}, {i})", to_pos.0);
-                    return false;
-                }
-            }
-        }
 
-        self.diff_colour(from_pos, to_pos)
+            ((min + 1)..max)
+                .map(|i| self.board[i][to_pos.1])
+                .any(|p| p.is_some())
+        };
+        if !ret {
+            false
+        } else {
+            self.diff_colour(from_pos, to_pos)
+        }
     }
 
     fn check_diag_move(&self, from_pos: Pair, to_pos: Pair) -> bool {
