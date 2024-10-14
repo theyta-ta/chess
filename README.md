@@ -18,9 +18,7 @@ if anyone has any other simple ways of counting LOC in the commandline w/out ins
 please share them!
 
 (if you cant/dont want to read regex + shell, 
-the command counts how many lines are in the src/ directory that are 
->1 char long 
-and do not start with `//`.
+the command counts how many lines are in the src/ directory that are > 1 char long and do not start with `//`.
 
 obviously this still counts block comments, but oh well!
 i will pipe the sed into awk to remove them... once i can be bothered.
